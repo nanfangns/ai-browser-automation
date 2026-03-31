@@ -2,17 +2,30 @@
 export const ConnectionSettingsTemplate = `
 <div class="setting-group">
     <h4 data-i18n="connection">Connection</h4>
-    
+
+    <!-- Provider Dropdown -->
     <div style="margin-bottom: 12px;">
         <label data-i18n="connectionProvider" style="font-weight: 500; display: block; margin-bottom: 6px;">Model Provider</label>
-        <select id="provider-select" class="shortcut-input" style="width: 100%; text-align: left; padding: 8px 12px;">
-            <option value="web" data-i18n="providerWeb">Gemini Web Client (Free)</option>
-            <option value="official" data-i18n="providerOfficial">Google Gemini API</option>
-            <option value="openai" data-i18n="providerOpenAI">OpenAI Compatible API</option>
-            <option value="anthropic" data-i18n="providerAnthropic">Anthropic Messages API (Native)</option>
-        </select>
+        <div class="cd-wrapper cd-wrapper-full" id="provider-select-wrapper">
+            <button class="cd-trigger cd-trigger-full" id="provider-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select provider">
+                <span class="cd-trigger-label">Gemini Web Client (Free)</span>
+                <svg class="cd-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="cd-dropdown cd-dropdown-full" id="provider-select-dropdown" role="listbox">
+                <div class="cd-option active" data-value="web" role="option" aria-selected="true" tabindex="0"><span class="cd-option-name">Gemini Web Client (Free)</span></div>
+                <div class="cd-option" data-value="official" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">Google Gemini API</span></div>
+                <div class="cd-option" data-value="openai" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">OpenAI Compatible API</span></div>
+                <div class="cd-option" data-value="anthropic" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">Anthropic Messages API (Native)</span></div>
+            </div>
+            <select id="provider-select" style="display:none" aria-label="Select provider">
+                <option value="web">Gemini Web Client (Free)</option>
+                <option value="official">Google Gemini API</option>
+                <option value="openai">OpenAI Compatible API</option>
+                <option value="anthropic">Anthropic Messages API (Native)</option>
+            </select>
+        </div>
     </div>
-    
+
     <div id="api-key-container" style="display: none; flex-direction: column; gap: 12px; margin-bottom: 12px; padding: 12px; background: rgba(0,0,0,0.03); border-radius: 8px;">
         <!-- Official API Fields -->
         <div id="official-fields" style="display: none; flex-direction: column; gap: 12px;">
@@ -21,13 +34,25 @@ export const ConnectionSettingsTemplate = `
                 <input type="password" id="api-key-input" class="shortcut-input" style="width: 100%; text-align: left; box-sizing: border-box;" data-i18n-placeholder="apiKeyPlaceholder" placeholder="Paste your Gemini API Key">
             </div>
             <div>
-                <label style="font-weight: 500; display: block; margin-bottom: 2px;">Thinking Level (Gemini 3)</label>
-                <select id="thinking-level-select" class="shortcut-input" style="width: 100%; text-align: left; padding: 6px 12px;">
-                    <option value="minimal">Minimal (Flash Only)</option>
-                    <option value="low">Low (Faster)</option>
-                    <option value="medium">Medium (Balanced)</option>
-                    <option value="high">High (Deep Reasoning)</option>
-                </select>
+                <label style="font-weight: 500; display: block; margin-bottom: 6px;">Thinking Level</label>
+                <div class="cd-wrapper cd-wrapper-full" id="thinking-level-wrapper">
+                    <button class="cd-trigger cd-trigger-full" id="thinking-level-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select thinking level">
+                        <span class="cd-trigger-label">Low (Faster)</span>
+                        <svg class="cd-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="cd-dropdown cd-dropdown-full" id="thinking-level-dropdown" role="listbox">
+                        <div class="cd-option" data-value="minimal" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">Minimal (Flash Only)</span></div>
+                        <div class="cd-option active" data-value="low" role="option" aria-selected="true" tabindex="0"><span class="cd-option-name">Low (Faster)</span></div>
+                        <div class="cd-option" data-value="medium" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">Medium (Balanced)</span></div>
+                        <div class="cd-option" data-value="high" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">High (Deep Reasoning)</span></div>
+                    </div>
+                    <select id="thinking-level-select" style="display:none" aria-label="Select thinking level">
+                        <option value="minimal">Minimal (Flash Only)</option>
+                        <option value="low">Low (Faster)</option>
+                        <option value="medium">Medium (Balanced)</option>
+                        <option value="high">High (Deep Reasoning)</option>
+                    </select>
+                </div>
             </div>
         </div>
 

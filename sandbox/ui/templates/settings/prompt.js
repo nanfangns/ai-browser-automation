@@ -5,11 +5,22 @@ export const PromptSettingsTemplate = `
 
     <div style="margin-bottom: 12px;">
         <label data-i18n="promptPreset" style="font-weight: 500; display: block; margin-bottom: 6px;">Preset</label>
-        <select id="prompt-preset-select" class="shortcut-input" style="width: 100%; text-align: left; padding: 8px 12px;">
-            <option value="custom" data-i18n="promptPresetCustom">Custom (Write your own below)</option>
-            <option value="brutal">吐槽毒舌 (Brutal Truth Teller)</option>
-            <option value="untrammelled">桀骜不驯 (Untrammelled Writer)</option>
-        </select>
+        <div class="cd-wrapper cd-wrapper-full" id="prompt-preset-wrapper">
+            <button class="cd-trigger cd-trigger-full" id="prompt-preset-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select prompt preset">
+                <span class="cd-trigger-label">Custom (Write your own below)</span>
+                <svg class="cd-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="cd-dropdown cd-dropdown-full" id="prompt-preset-dropdown" role="listbox">
+                <div class="cd-option active" data-value="custom" role="option" aria-selected="true" tabindex="0"><span class="cd-option-name">Custom (Write your own below)</span></div>
+                <div class="cd-option" data-value="brutal" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">吐槽毒舌</span><span class="cd-option-desc">Brutal Truth Teller</span></div>
+                <div class="cd-option" data-value="untrammelled" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">桀骜不驯</span><span class="cd-option-desc">Untrammelled Writer</span></div>
+            </div>
+            <select id="prompt-preset-select" style="display:none" aria-label="Select prompt preset">
+                <option value="custom">Custom (Write your own below)</option>
+                <option value="brutal">吐槽毒舌 (Brutal Truth Teller)</option>
+                <option value="untrammelled">桀骜不驯 (Untrammelled Writer)</option>
+            </select>
+        </div>
     </div>
 
     <p class="setting-desc" style="margin-bottom: 12px;" data-i18n="customPromptDesc">Add a global system prompt that will be included in every conversation. Use it to customize AI behavior, add context, or define specific rules.</p>

@@ -58,11 +58,31 @@
             <div class="ask-header" id="ask-header">
                 <span class="window-title" id="window-title">${t.windowTitle}</span>
                 <div class="header-actions">
-                    <select id="ask-model-select" class="ask-model-select">
-                        <option value="gemini-3-flash">Fast</option>
-                        <option value="gemini-3-flash-thinking">Thinking</option>
-                        <option value="gemini-3-pro">3 Pro</option>
-                    </select>
+                    <div class="ask-model-select-wrapper" id="ask-model-wrapper">
+                        <button class="ask-model-trigger" id="ask-model-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select model">
+                            <span class="ask-model-label" id="ask-model-label">Fast</span>
+                            <svg class="ask-model-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div class="ask-model-dropdown" id="ask-model-dropdown" role="listbox">
+                            <div class="ask-model-option active" data-value="gemini-3-flash" role="option" aria-selected="true" tabindex="0">
+                                <span class="ask-model-option-name">Fast</span>
+                                <span class="ask-model-option-desc">gemini-3-flash</span>
+                            </div>
+                            <div class="ask-model-option" data-value="gemini-3-flash-thinking" role="option" aria-selected="false" tabindex="0">
+                                <span class="ask-model-option-name">Thinking</span>
+                                <span class="ask-model-option-desc">gemini-3-flash-thinking</span>
+                            </div>
+                            <div class="ask-model-option" data-value="gemini-3-pro" role="option" aria-selected="false" tabindex="0">
+                                <span class="ask-model-option-name">3 Pro</span>
+                                <span class="ask-model-option-desc">gemini-3-pro</span>
+                            </div>
+                        </div>
+                        <select id="ask-model-select" style="display:none" aria-label="Select model">
+                            <option value="gemini-3-flash">Fast</option>
+                            <option value="gemini-3-flash-thinking">Thinking</option>
+                            <option value="gemini-3-pro">3 Pro</option>
+                        </select>
+                    </div>
                     <button class="icon-btn" id="btn-header-close" title="${t.close}">${ICONS.CLOSE}</button>
                 </div>
             </div>

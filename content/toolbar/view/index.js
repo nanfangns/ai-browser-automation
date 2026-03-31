@@ -10,16 +10,91 @@
             this.shadow = shadowRoot;
             this.elements = {};
             this.cacheElements();
-            
+            this._initModelDropdown();
+
             // Initialize Sub-Views
             this.widgetView = new window.GeminiViewWidget(this.elements);
             this.windowView = new window.GeminiViewWindow(this.elements);
-            
-            // Initial resize of model select if exists
-            const Utils = window.GeminiViewUtils;
-            if (this.elements.askModelSelect && Utils && Utils.resizeSelect) {
-                Utils.resizeSelect(this.elements.askModelSelect);
-            }
+        }
+
+        _initModelDropdown() {
+            const wrapper = this.shadow.getElementById('ask-model-wrapper');
+            const trigger = this.shadow.getElementById('ask-model-trigger');
+            const dropdown = this.shadow.getElementById('ask-model-dropdown');
+            const label = this.shadow.getElementById('ask-model-label');
+            const select = this.elements.askModelSelect;
+            if (!wrapper || !trigger || !dropdown || !label || !select) return;
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = dropdown.classList.contains('open');
+                if (isOpen) this._closeDropdown();
+                else this._openDropdown();
+            });
+
+            dropdown.addEventListener('click', (e) => {
+                const option = e.target.closest('.ask-model-option');
+                if (!option) return;
+                this._selectOption(option.dataset.value);
+            });
+
+            this.shadow.addEventListener('click', (e) => {
+                if (!wrapper.contains(e.target)) this._closeDropdown();
+            });
+
+            trigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { this._closeDropdown(); return; }
+                if (!dropdown.classList.contains('open') && ['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) {
+                    e.preventDefault();
+                    this._openDropdown();
+                }
+            });
+
+            dropdown.addEventListener('keydown', (e) => {
+                const opts = [...dropdown.querySelectorAll('.ask-model-option')];
+                const focused = dropdown.querySelector('.ask-model-option:focus');
+                const idx = opts.indexOf(focused);
+                if (e.key === 'ArrowDown') { e.preventDefault(); (opts[idx + 1] || opts[0])?.focus(); }
+                else if (e.key === 'ArrowUp') { e.preventDefault(); (opts[idx - 1] || opts[opts.length - 1])?.focus(); }
+                else if (['Enter', ' '].includes(e.key)) { e.preventDefault(); document.activeElement?.click(); }
+                else if (e.key === 'Escape') { this._closeDropdown(); trigger.focus(); }
+            });
+        }
+
+        _openDropdown() {
+            const trigger = this.shadow.getElementById('ask-model-trigger');
+            const dropdown = this.shadow.getElementById('ask-model-dropdown');
+            if (!trigger || !dropdown) return;
+            dropdown.classList.add('open');
+            trigger.setAttribute('aria-expanded', 'true');
+            dropdown.querySelector('.ask-model-option')?.focus();
+        }
+
+        _closeDropdown() {
+            const trigger = this.shadow.getElementById('ask-model-trigger');
+            const dropdown = this.shadow.getElementById('ask-model-dropdown');
+            if (!trigger || !dropdown) return;
+            dropdown.classList.remove('open');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+
+        _selectOption(value) {
+            const dropdown = this.shadow.getElementById('ask-model-dropdown');
+            const label = this.shadow.getElementById('ask-model-label');
+            const select = this.elements.askModelSelect;
+            if (!dropdown || !label || !select) return;
+
+            dropdown.querySelectorAll('.ask-model-option').forEach(opt => {
+                const isActive = opt.dataset.value === value;
+                opt.classList.toggle('active', isActive);
+                opt.setAttribute('aria-selected', isActive);
+            });
+
+            const active = dropdown.querySelector(`.ask-model-option[data-value="${value}"]`);
+            if (active) label.textContent = active.querySelector('.ask-model-option-name').textContent;
+            select.value = value;
+            select.dispatchEvent(new Event('change'));
+            this._closeDropdown();
         }
 
         cacheElements() {
@@ -116,34 +191,61 @@
         }
 
         setSelectedModel(model) {
-            const Utils = window.GeminiViewUtils;
-            if (this.elements.askModelSelect && model) {
-                this.elements.askModelSelect.value = model;
-                if(Utils && Utils.resizeSelect) Utils.resizeSelect(this.elements.askModelSelect);
+            const label = this.shadow.getElementById('ask-model-label');
+            const dropdown = this.shadow.getElementById('ask-model-dropdown');
+            const select = this.elements.askModelSelect;
+            if (!select || !model) return;
+            select.value = model;
+
+            if (dropdown) {
+                dropdown.querySelectorAll('.ask-model-option').forEach(opt => {
+                    const isActive = opt.dataset.value === model;
+                    opt.classList.toggle('active', isActive);
+                    opt.setAttribute('aria-selected', isActive);
+                });
+            }
+            if (label) {
+                const active = dropdown?.querySelector(`.ask-model-option[data-value="${model}"]`);
+                if (active) label.textContent = active.querySelector('.ask-model-option-name').textContent;
             }
         }
 
         updateModelOptions(options, selectedValue) {
             const select = this.elements.askModelSelect;
-            if (!select) return;
+            const dropdown = this.shadow.getElementById('ask-model-dropdown');
+            const label = this.shadow.getElementById('ask-model-label');
+            if (!select || !dropdown) return;
 
             select.innerHTML = '';
+            dropdown.innerHTML = '';
+            const currentVal = selectedValue || options[0]?.val;
+
             options.forEach(o => {
+                // Native select option
                 const opt = document.createElement('option');
                 opt.value = o.val;
                 opt.textContent = o.txt;
                 select.appendChild(opt);
+
+                // Custom dropdown option
+                const div = document.createElement('div');
+                div.className = `ask-model-option${o.val === currentVal ? ' active' : ''}`;
+                div.dataset.value = o.val;
+                div.setAttribute('role', 'option');
+                div.setAttribute('aria-selected', o.val === currentVal);
+                div.tabIndex = 0;
+                div.innerHTML = `<span class="ask-model-option-name">${o.txt}</span><span class="ask-model-option-desc">${o.desc || o.val}</span>`;
+                dropdown.appendChild(div);
             });
 
-            // Select value if valid, otherwise first option
-            if (selectedValue && options.some(o => o.val === selectedValue)) {
-                select.value = selectedValue;
-            } else if (options.length > 0) {
-                select.value = options[0].val;
+            const val = options.some(o => o.val === currentVal) ? currentVal : options[0]?.val;
+            if (val) {
+                select.value = val;
+                if (label) {
+                    const active = dropdown.querySelector(`.ask-model-option[data-value="${val}"]`);
+                    if (active) label.textContent = active.querySelector('.ask-model-option-name').textContent;
+                }
             }
-            
-            const Utils = window.GeminiViewUtils;
-            if (Utils && Utils.resizeSelect) Utils.resizeSelect(select);
         }
 
         // --- General ---

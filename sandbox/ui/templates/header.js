@@ -7,26 +7,25 @@ export const HeaderTemplate = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
 
-            <div class="model-select-wrapper" id="model-select-wrapper">
-                <button id="model-select-trigger" class="model-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select model">
-                    <span class="model-select-label" id="model-select-label">Fast</span>
-                    <svg class="model-select-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <div class="cd-wrapper" id="model-select-wrapper">
+                <button id="model-select-trigger" class="cd-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select model">
+                    <span class="cd-trigger-label" id="model-select-label">Fast</span>
+                    <svg class="cd-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div class="model-select-dropdown" id="model-select-dropdown" role="listbox">
-                    <div class="model-select-option active" data-value="gemini-3-flash" role="option" aria-selected="true">
-                        <span class="model-option-name">Fast</span>
-                        <span class="model-option-desc">gemini-3-flash</span>
+                <div class="cd-dropdown" id="model-select-dropdown" role="listbox">
+                    <div class="cd-option active" data-value="gemini-3-flash" role="option" aria-selected="true" tabindex="0">
+                        <span class="cd-option-name">Fast</span>
+                        <span class="cd-option-desc">gemini-3-flash</span>
                     </div>
-                    <div class="model-select-option" data-value="gemini-3-flash-thinking" role="option" aria-selected="false">
-                        <span class="model-option-name">Thinking</span>
-                        <span class="model-option-desc">gemini-3-flash-thinking</span>
+                    <div class="cd-option" data-value="gemini-3-flash-thinking" role="option" aria-selected="false" tabindex="0">
+                        <span class="cd-option-name">Thinking</span>
+                        <span class="cd-option-desc">gemini-3-flash-thinking</span>
                     </div>
-                    <div class="model-select-option" data-value="gemini-3-pro" role="option" aria-selected="false">
-                        <span class="model-option-name">3 Pro</span>
-                        <span class="model-option-desc">gemini-3-pro</span>
+                    <div class="cd-option" data-value="gemini-3-pro" role="option" aria-selected="false" tabindex="0">
+                        <span class="cd-option-name">3 Pro</span>
+                        <span class="cd-option-desc">gemini-3-pro</span>
                     </div>
                 </div>
-                <!-- Hidden native select for accessibility / form submission -->
                 <select id="model-select" style="display:none" aria-label="Select model">
                     <option value="gemini-3-flash">Fast</option>
                     <option value="gemini-3-flash-thinking">Thinking</option>
