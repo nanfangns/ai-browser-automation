@@ -18,6 +18,8 @@
 
 Gemini Nexus 将 Google Gemini 模型直接集成到浏览器中，让 AI 能够**直接控制网页**——自动点击按钮、填写表单、导航页面。通过自然语言描述任务，AI 会自动规划步骤并执行浏览器操作。
 
+> ⚠️ 本项目是基于 [yeahhe365/gemini-nexus](https://github.com/yeahhe365/gemini-nexus) 的二次开发，添加了浏览器自动化控制等功能。
+
 **核心亮点：**
 - 🤖 AI 驱动的浏览器自动化
 - 🎯 批量操作支持，一次性完成多项任务
