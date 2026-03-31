@@ -221,12 +221,12 @@ export class SettingsController {
     }
 
     async fetchGithubData() {
-        if (this.view.hasFetchedStars()) return; 
+        if (this.view.hasFetchedStars()) return;
 
         try {
             const [starRes, releaseRes] = await Promise.all([
-                fetch('https://api.github.com/repos/yeahhe365/gemini-nexus'),
-                fetch('https://api.github.com/repos/yeahhe365/gemini-nexus/releases/latest')
+                fetch('https://api.github.com/repos/nanfangns/gemini-nexus'),
+                fetch('https://api.github.com/repos/nanfangns/gemini-nexus/releases/latest')
             ]);
 
             if (starRes.ok) {
