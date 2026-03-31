@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -218,17 +218,7 @@
 .settings-body {
     padding: 20px;
     overflow-y: auto; /* Enable vertical scrolling */
-    overscroll-behavior: contain; /* Prevent scroll chaining to parent */
-    
-    /* Custom Scrollbar Firefox */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }
-
-[data-theme="dark"] .settings-body {
-    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-}
-
 /* Custom Scrollbar Webkit */
 .settings-body::-webkit-scrollbar {
     width: 6px;

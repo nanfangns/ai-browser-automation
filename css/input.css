@@ -192,6 +192,11 @@ body.layout-wide .tools-container {
     margin-left: 6px; /* Spacing from buttons */
 }
 
+#prompt:focus-visible {
+    outline: 2px solid var(--primary);
+    border-radius: 4px;
+}
+
 #prompt::placeholder { color: var(--input-placeholder); }
 
 /* Buttons */
