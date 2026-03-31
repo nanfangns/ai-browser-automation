@@ -3,6 +3,7 @@ import { ConnectionSettingsTemplate } from './settings/connection.js';
 import { GeneralSettingsTemplate } from './settings/general.js';
 import { AppearanceSettingsTemplate } from './settings/appearance.js';
 import { ShortcutsSettingsTemplate } from './settings/shortcuts.js';
+import { PromptSettingsTemplate } from './settings/prompt.js';
 import { AboutSettingsTemplate } from './settings/about.js';
 
 export const SettingsTemplate = `
@@ -18,6 +19,7 @@ export const SettingsTemplate = `
                 ${GeneralSettingsTemplate}
                 ${AppearanceSettingsTemplate}
                 ${ShortcutsSettingsTemplate}
+                ${PromptSettingsTemplate}
                 ${AboutSettingsTemplate}
             </div>
         </div>

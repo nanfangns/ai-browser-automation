@@ -11,6 +11,12 @@ export class PromptBuilder {
     async build(request) {
         let systemPreamble = "";
 
+        // Fetch custom prompt from storage
+        const { geminiCustomPrompt = '' } = await chrome.storage.local.get(['geminiCustomPrompt']);
+        if (geminiCustomPrompt && geminiCustomPrompt.trim()) {
+            systemPreamble += `[Custom System Prompt]:\n${geminiCustomPrompt.trim()}\n\n---\n\n`;
+        }
+
         if (request.includePageContext) {
             // If we have a locked tab in ControlManager, use it for context
             const targetTabId = this.controlManager ? this.controlManager.getTargetTabId() : null;

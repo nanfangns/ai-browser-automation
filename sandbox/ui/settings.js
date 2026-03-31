@@ -1,6 +1,6 @@
 
 // sandbox/ui/settings.js
-import { saveShortcutsToStorage, saveThemeToStorage, requestThemeFromStorage, saveLanguageToStorage, requestLanguageFromStorage, saveTextSelectionToStorage, requestTextSelectionFromStorage, saveSidebarBehaviorToStorage, saveImageToolsToStorage, requestImageToolsFromStorage, saveAccountIndicesToStorage, requestAccountIndicesFromStorage, saveConnectionSettingsToStorage, requestConnectionSettingsFromStorage, sendToBackground } from '../../lib/messaging.js';
+import { saveShortcutsToStorage, saveThemeToStorage, requestThemeFromStorage, saveLanguageToStorage, requestLanguageFromStorage, saveTextSelectionToStorage, requestTextSelectionFromStorage, saveSidebarBehaviorToStorage, saveImageToolsToStorage, requestImageToolsFromStorage, saveAccountIndicesToStorage, requestAccountIndicesFromStorage, saveConnectionSettingsToStorage, requestConnectionSettingsFromStorage, saveCustomPromptToStorage, requestCustomPromptFromStorage, sendToBackground } from '../../lib/messaging.js';
 import { setLanguagePreference, getLanguagePreference } from '../core/i18n.js';
 import { SettingsView } from './settings/view.js';
 import { DEFAULT_SHORTCUTS } from '../../lib/constants.js';
@@ -16,7 +16,8 @@ export class SettingsController {
         this.textSelectionEnabled = true;
         this.imageToolsEnabled = true;
         this.accountIndices = "0";
-        
+        this.customPrompt = "";
+
         // Connection State
         this.connectionData = {
             provider: 'web',
@@ -84,7 +85,8 @@ export class SettingsController {
         requestImageToolsFromStorage();
         requestAccountIndicesFromStorage();
         requestConnectionSettingsFromStorage();
-        
+        requestCustomPromptFromStorage();
+
         this.fetchGithubData();
     }
 
@@ -121,6 +123,10 @@ export class SettingsController {
         };
         
         saveConnectionSettingsToStorage(this.connectionData);
+
+        // Custom Prompt
+        this.customPrompt = data.customPrompt || '';
+        saveCustomPromptToStorage(this.customPrompt);
 
         // Notify app of critical setting changes
         if (this.callbacks.onSettingsChanged) {
@@ -218,6 +224,11 @@ export class SettingsController {
     updateAccountIndices(indicesString) {
         this.accountIndices = indicesString || "0";
         this.view.setAccountIndices(this.accountIndices);
+    }
+
+    updateCustomPrompt(prompt) {
+        this.customPrompt = prompt || "";
+        this.view.setCustomPrompt(this.customPrompt);
     }
 
     async fetchGithubData() {

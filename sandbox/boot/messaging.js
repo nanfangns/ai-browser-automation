@@ -87,7 +87,11 @@ export class AppMessageBridge {
             this.ui.settings.updateAccountIndices(payload);
             return;
         }
-        
+        if (action === 'RESTORE_CUSTOM_PROMPT') {
+            this.ui.settings.updateCustomPrompt(payload);
+            return;
+        }
+
         // Note: RESTORE_CONNECTION_SETTINGS is handled by AppController to update Model List
         
         if (action === 'RESTORE_BROWSER_LOOP_LIMIT') {

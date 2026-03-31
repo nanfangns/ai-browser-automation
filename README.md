@@ -35,7 +35,20 @@ Gemini Nexus 将 Google Gemini 模型直接集成到浏览器中，让 AI 能够
 | 🖼️ **图像分析** | 截图并让 AI 解析内容 |
 | ⚡ **快捷键** | 默认 `Alt+S` 快速开启 |
 | 🖱️ **浏览器控制** | AI 指令直接操作网页 |
+| 📝 **自定义提示词** | 全局系统提示词，自定义 AI 行为 |
 | 🔒 **隐私安全** | 沙箱环境运行，数据本地处理 |
+
+## 自定义提示词
+
+在设置中添加全局系统提示词，将应用于所有对话：
+
+> 设置 → 自定义提示词 → 填写你的提示词
+
+示例：
+```
+你是一个专门帮助用户完成浏览器自动化任务的助手。
+你应该优先使用批量操作来提高效率。
+```
 
 ## 浏览器控制
 
@@ -112,7 +125,9 @@ gemini-nexus/
 ## 技术栈
 
 - **Vite + React + TypeScript**
-- **Google Gemini API**
+- **Google Gemini API** (官方 + 网页版)
+- **OpenAI 兼容 API**
+- **Anthropic Messages API** (原生支持 Claude 模型)
 - **Chrome Extension Manifest V3**
 - **Chrome DevTools Protocol (CDP)**
 

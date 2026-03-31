@@ -120,6 +120,15 @@ export class MessageBridge {
             });
             return;
         }
+        if (action === 'GET_CUSTOM_PROMPT') {
+            chrome.storage.local.get(['geminiCustomPrompt'], (res) => {
+                this.frame.postMessage({
+                    action: 'RESTORE_CUSTOM_PROMPT',
+                    payload: res.geminiCustomPrompt || ""
+                });
+            });
+            return;
+        }
 
         // 6. Data Setters (Sync to Storage & Cache)
         if (action === 'SAVE_SESSIONS') this.state.save('geminiSessions', payload);
@@ -145,6 +154,9 @@ export class MessageBridge {
             this.state.save('geminiAnthropicBaseUrl', payload.anthropicBaseUrl);
             this.state.save('geminiAnthropicApiKey', payload.anthropicApiKey);
             this.state.save('geminiAnthropicModel', payload.anthropicModel);
+        }
+        if (action === 'SAVE_CUSTOM_PROMPT') {
+            this.state.save('geminiCustomPrompt', payload);
         }
     }
 
