@@ -366,6 +366,164 @@
     border-color: var(--primary);
 }
 
+/* ─── About Section ─── */
+.about-section {
+    background: var(--bg-sidebar);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.about-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.about-logo svg {
+    flex-shrink: 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.about-title-block {
+    flex: 1;
+    min-width: 0;
+}
+
+.about-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+}
+
+.about-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.about-version {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    background: var(--bg-input);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+}
+
+.about-update {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.about-update a {
+    color: #d93025;
+    text-decoration: none;
+    border-bottom: 1px dashed #d93025;
+}
+
+.about-desc {
+    font-size: 12.5px;
+    color: var(--text-tertiary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.about-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--bg-input);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.about-feature-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.about-feature-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.about-feature-desc {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.3;
+}
+
+.about-links {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.18s;
+}
+
+.about-link:hover {
+    background: var(--btn-hover);
+    color: var(--text-primary);
+    border-color: var(--text-tertiary);
+}
+
+.about-star-badge {
+    background: var(--btn-active-bg);
+    color: var(--primary);
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.about-credit {
+    font-size: 11.5px;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+}
+
+.about-credit-link {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.about-credit-link:hover {
+    text-decoration: underline;
+}
+
 /* ─── Shared Custom Dropdown (Settings) ─── */
 
 /* Wrapper */

@@ -30,23 +30,24 @@ export class AboutSection {
     displayStars(count) {
         const { starEl } = this.elements;
         if (!starEl) return;
-        
+
         if (count) {
-            const formatted = count > 999 ? (count/1000).toFixed(1) + 'k' : count;
+            const formatted = count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
             starEl.textContent = `★ ${formatted}`;
-            starEl.style.display = 'inline-flex';
-            starEl.dataset.fetched = "true";
+            starEl.style.display = 'inline';
         } else {
             starEl.style.display = 'none';
         }
     }
 
     hasFetchedStars() {
-        return this.elements.starEl && this.elements.starEl.dataset.fetched === "true";
+        const { starEl } = this.elements;
+        return starEl && starEl.style.display !== 'none';
     }
 
     getCurrentVersion() {
-        return this.elements.currentVersionEl ? this.elements.currentVersionEl.textContent : null;
+        const { currentVersionEl } = this.elements;
+        return currentVersionEl ? currentVersionEl.textContent : null;
     }
 
     displayUpdateStatus(latest, current, isUpdateAvailable) {
@@ -54,10 +55,11 @@ export class AboutSection {
         if (!updateStatusEl) return;
 
         if (isUpdateAvailable) {
-            updateStatusEl.innerHTML = `<a href="https://github.com/nanfangns/gemini-nexus/releases" target="_blank" style="color: #d93025; text-decoration: none; border-bottom: 1px dashed;">Update available: ${latest}</a>`;
+            updateStatusEl.innerHTML = `<a href="https://github.com/nanfangns/gemini-nexus/releases" target="_blank" style="color: #d93025; text-decoration: none; border-bottom: 1px dashed;">Update: ${latest}</a>`;
+            updateStatusEl.style.color = '';
         } else {
-            updateStatusEl.textContent = `(Latest: ${latest})`;
-            updateStatusEl.style.color = "var(--text-tertiary)";
+            updateStatusEl.textContent = `(Latest)`;
+            updateStatusEl.style.color = 'var(--text-tertiary)';
         }
     }
 }
