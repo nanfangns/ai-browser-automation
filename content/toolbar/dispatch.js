@@ -14,6 +14,7 @@
         get imageDetector() { return this.controller.imageDetector; }
 
         dispatch(actionType, data) {
+            console.log('[DEBUG dispatch ENTER] actionType:', actionType);
             // Always read fresh from chrome.storage.local to avoid stale dropdown state
             // caused by failed storage.onChanged syncs between sidebar and floating toolbar.
             // Also rebuild the model list so the dropdown always matches the current provider.
@@ -24,16 +25,16 @@
                 'geminiOpenaiModel',
                 'geminiAnthropicModel'
             ], (res) => {
-                console.log('[DEBUG dispatch] storage:', JSON.stringify(res));
+                console.log('[DEBUG dispatch STORAGE]', JSON.stringify(res));
                 const freshModel = res.geminiModel || this.ui.getSelectedModel();
-                console.log('[DEBUG dispatch] freshModel:', freshModel);
+                console.log('[DEBUG dispatch freshModel:', freshModel, 'fallback:', this.ui.getSelectedModel());
                 const settings = {
                     provider: res.geminiProvider || (res.geminiUseOfficialApi ? 'official' : 'web'),
                     useOfficialApi: res.geminiUseOfficialApi,
                     openaiModel: res.geminiOpenaiModel,
                     anthropicModel: res.geminiAnthropicModel
                 };
-                console.log('[DEBUG dispatch] settings:', JSON.stringify(settings));
+                console.log('[DEBUG dispatch settings:', JSON.stringify(settings));
                 this.ui.updateModelList(settings, freshModel);
                 this._dispatchWithModel(actionType, data, freshModel);
             });

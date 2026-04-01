@@ -145,6 +145,7 @@ class ToolbarActions {
     }
 
     handleSubmitAsk(question, context, sessionId = null, model = "gemini-2.5-flash") {
+        console.log('[DEBUG handleSubmitAsk] model:', model);
         this.ui.showLoading();
         
         let prompt = question;
@@ -168,9 +169,10 @@ class ToolbarActions {
         };
         
         this.lastRequest = msg;
+        console.log('[DEBUG sendMessage] QUICK_ASK model:', model);
         chrome.runtime.sendMessage(msg);
     }
-    
+
     handleRetry() {
         if (!this.lastRequest) return;
         
