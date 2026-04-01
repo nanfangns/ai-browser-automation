@@ -26,12 +26,15 @@ export class ConnectionSection {
             officialFields: get('official-fields'),
             openaiFields: get('openai-fields'),
             anthropicFields: get('anthropic-fields'),
+            xaiFields: get('xai-fields'),
             openaiBaseUrl: get('openai-base-url'),
             openaiApiKey: get('openai-api-key'),
             openaiModel: get('openai-model'),
             anthropicBaseUrl: get('anthropic-base-url'),
             anthropicApiKey: get('anthropic-api-key'),
             anthropicModel: get('anthropic-model'),
+            xaiApiKey: get('xai-api-key'),
+            xaiModel: get('xai-model'),
         };
     }
 
@@ -50,7 +53,8 @@ export class ConnectionSection {
                     { val: 'web', txt: 'Gemini Web Client (Free)' },
                     { val: 'official', txt: 'Google Gemini API' },
                     { val: 'openai', txt: 'OpenAI Compatible API' },
-                    { val: 'anthropic', txt: 'Anthropic Messages API (Native)' }
+                    { val: 'anthropic', txt: 'Anthropic Messages API (Native)' },
+                    { val: 'xai', txt: 'xAI Grok API' }
                 ],
                 onSelect: (value) => this.updateVisibility(value)
             });
@@ -77,7 +81,8 @@ export class ConnectionSection {
     setData(data) {
         const { apiKeyInput, thinkingSelect,
                 openaiBaseUrl, openaiApiKey, openaiModel,
-                anthropicBaseUrl, anthropicApiKey, anthropicModel } = this.elements;
+                anthropicBaseUrl, anthropicApiKey, anthropicModel,
+                xaiApiKey, xaiModel } = this.elements;
 
         // Provider
         const provider = data.provider || 'web';
@@ -98,12 +103,17 @@ export class ConnectionSection {
         if (anthropicBaseUrl) anthropicBaseUrl.value = data.anthropicBaseUrl || "";
         if (anthropicApiKey) anthropicApiKey.value = data.anthropicApiKey || "";
         if (anthropicModel) anthropicModel.value = data.anthropicModel || "";
+
+        // xAI
+        if (xaiApiKey) xaiApiKey.value = data.xaiApiKey || "";
+        if (xaiModel) xaiModel.value = data.xaiModel || "";
     }
 
     getData() {
         const { providerSelect, apiKeyInput, thinkingSelect,
                 openaiBaseUrl, openaiApiKey, openaiModel,
-                anthropicBaseUrl, anthropicApiKey, anthropicModel } = this.elements;
+                anthropicBaseUrl, anthropicApiKey, anthropicModel,
+                xaiApiKey, xaiModel } = this.elements;
 
         return {
             provider: providerSelect ? providerSelect.value : 'web',
@@ -114,12 +124,14 @@ export class ConnectionSection {
             openaiModel: openaiModel ? openaiModel.value.trim() : "",
             anthropicBaseUrl: anthropicBaseUrl ? anthropicBaseUrl.value.trim() : "",
             anthropicApiKey: anthropicApiKey ? anthropicApiKey.value.trim() : "",
-            anthropicModel: anthropicModel ? anthropicModel.value.trim() : ""
+            anthropicModel: anthropicModel ? anthropicModel.value.trim() : "",
+            xaiApiKey: xaiApiKey ? xaiApiKey.value.trim() : "",
+            xaiModel: xaiModel ? xaiModel.value.trim() : ""
         };
     }
 
     updateVisibility(provider) {
-        const { apiKeyContainer, officialFields, openaiFields, anthropicFields } = this.elements;
+        const { apiKeyContainer, officialFields, openaiFields, anthropicFields, xaiFields } = this.elements;
         if (!apiKeyContainer) return;
 
         if (provider === 'web') {
@@ -129,6 +141,7 @@ export class ConnectionSection {
             if (officialFields) officialFields.style.display = provider === 'official' ? 'flex' : 'none';
             if (openaiFields) openaiFields.style.display = provider === 'openai' ? 'flex' : 'none';
             if (anthropicFields) anthropicFields.style.display = provider === 'anthropic' ? 'flex' : 'none';
+            if (xaiFields) xaiFields.style.display = provider === 'xai' ? 'flex' : 'none';
         }
     }
 }

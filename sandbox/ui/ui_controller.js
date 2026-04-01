@@ -135,6 +135,14 @@ export class UIController {
             options = models.length
                 ? models.map(m => ({ val: m, txt: m, desc: m }))
                 : [{ val: 'anthropic_custom', txt: 'Custom Model', desc: 'custom' }];
+        } else if (provider === 'xai') {
+            const models = (settings.xaiModel || '').split(',').map(m => m.trim()).filter(Boolean);
+            options = models.length
+                ? models.map(m => ({ val: m, txt: m, desc: m }))
+                : [
+                    { val: 'grok-3', txt: 'Grok 3', desc: 'grok-3' },
+                    { val: 'grok-3-mini', txt: 'Grok 3 Mini', desc: 'grok-3-mini' }
+                ];
         } else {
             options = [
                 { val: 'gemini-3-flash', txt: 'Fast', desc: 'gemini-3-flash' },

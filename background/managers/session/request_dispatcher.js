@@ -4,6 +4,7 @@ import { sendOfficialMessage } from '../../../services/providers/official.js';
 import { sendWebMessage } from '../../../services/providers/web.js';
 import { sendOpenAIMessage } from '../../../services/providers/openai_compatible.js';
 import { sendAnthropicMessage } from '../../../services/providers/anthropic.js';
+import { sendXaiMessage } from '../../../services/providers/xai.js';
 import { getHistory } from './history_store.js';
 
 export class RequestDispatcher {
@@ -18,6 +19,8 @@ export class RequestDispatcher {
             return await this._handleOpenAIRequest(request, settings, files, onUpdate, signal);
         } else if (settings.provider === 'anthropic') {
             return await this._handleAnthropicRequest(request, settings, files, onUpdate, signal);
+        } else if (settings.provider === 'xai') {
+            return await this._handleXaiRequest(request, settings, files, onUpdate, signal);
         } else {
             return await this._handleWebRequest(request, files, onUpdate, signal);
         }
@@ -105,6 +108,41 @@ export class RequestDispatcher {
         let history = await getHistory(request.sessionId);
 
         const response = await sendAnthropicMessage(
+            request.text,
+            request.systemInstruction,
+            history,
+            config,
+            files,
+            signal,
+            onUpdate
+        );
+
+        return {
+            action: "GEMINI_REPLY",
+            text: response.text,
+            thoughts: response.thoughts,
+            images: response.images,
+            status: "success",
+            context: null
+        };
+    }
+
+    async _handleXaiRequest(request, settings, files, onUpdate, signal) {
+        // Always use model from storage (authoritative source) instead of request payload
+        let targetModel = settings.model;
+        if (!targetModel || targetModel === 'xai_custom') {
+            const configuredModels = settings.xaiModel ? settings.xaiModel.split(',') : [];
+            targetModel = configuredModels.length > 0 ? configuredModels[0].trim() : "grok-3-mini";
+        }
+
+        const config = {
+            apiKey: settings.xaiApiKey,
+            model: targetModel
+        };
+
+        let history = await getHistory(request.sessionId);
+
+        const response = await sendXaiMessage(
             request.text,
             request.systemInstruction,
             history,

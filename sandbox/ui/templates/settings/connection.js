@@ -16,12 +16,14 @@ export const ConnectionSettingsTemplate = `
                 <div class="cd-option" data-value="official" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">Google Gemini API</span></div>
                 <div class="cd-option" data-value="openai" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">OpenAI Compatible API</span></div>
                 <div class="cd-option" data-value="anthropic" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">Anthropic Messages API (Native)</span></div>
+                <div class="cd-option" data-value="xai" role="option" aria-selected="false" tabindex="0"><span class="cd-option-name">xAI Grok API</span></div>
             </div>
             <select id="provider-select" style="display:none" aria-label="Select provider">
                 <option value="web">Gemini Web Client (Free)</option>
                 <option value="official">Google Gemini API</option>
                 <option value="openai">OpenAI Compatible API</option>
                 <option value="anthropic">Anthropic Messages API (Native)</option>
+                <option value="xai">xAI Grok API</option>
             </select>
         </div>
     </div>
@@ -85,6 +87,19 @@ export const ConnectionSettingsTemplate = `
             <div>
                 <label style="font-weight: 500; display: block; margin-bottom: 2px;">Model IDs (Comma separated)</label>
                 <input type="text" id="anthropic-model" class="shortcut-input" style="width: 100%; text-align: left; box-sizing: border-box;" placeholder="e.g. claude-3-5-sonnet-20241022, claude-3-opus-20240229">
+            </div>
+        </div>
+
+        <!-- xAI Fields -->
+        <div id="xai-fields" style="display: none; flex-direction: column; gap: 12px;">
+            <div>
+                <label style="font-weight: 500; display: block; margin-bottom: 2px;">API Key</label>
+                <input type="password" id="xai-api-key" class="shortcut-input" style="width: 100%; text-align: left; box-sizing: border-box;" placeholder="xai-...">
+                <span style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px; display: block;">Get your key from <a href="https://console.x.ai" target="_blank" style="color: var(--accent);">console.x.ai</a></span>
+            </div>
+            <div>
+                <label style="font-weight: 500; display: block; margin-bottom: 2px;">Model (Comma separated)</label>
+                <input type="text" id="xai-model" class="shortcut-input" style="width: 100%; text-align: left; box-sizing: border-box;" placeholder="grok-3, grok-3-mini">
             </div>
         </div>
     </div>

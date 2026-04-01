@@ -15,6 +15,8 @@ export async function getConnectionSettings() {
         'geminiAnthropicBaseUrl',
         'geminiAnthropicApiKey',
         'geminiAnthropicModel',
+        'geminiXaiApiKey',
+        'geminiXaiModel',
         'geminiModel'
     ]);
 
@@ -51,7 +53,7 @@ export async function getConnectionSettings() {
         activeApiKey = activeApiKey.trim();
     }
 
-    console.log('[DEBUG getConnectionSettings] stored:', JSON.stringify({provider: provider, model: stored.geminiModel, openaiModel: stored.geminiOpenaiModel, anthropicModel: stored.geminiAnthropicModel}));
+    console.log('[DEBUG getConnectionSettings] stored:', JSON.stringify({provider: provider, model: stored.geminiModel, openaiModel: stored.geminiOpenaiModel, anthropicModel: stored.geminiAnthropicModel, xaiModel: stored.geminiXaiModel}));
     return {
         provider: provider,
         // Model: always authoritative from storage
@@ -66,6 +68,9 @@ export async function getConnectionSettings() {
         // Anthropic
         anthropicBaseUrl: stored.geminiAnthropicBaseUrl,
         anthropicApiKey: stored.geminiAnthropicApiKey,
-        anthropicModel: stored.geminiAnthropicModel
+        anthropicModel: stored.geminiAnthropicModel,
+        // xAI
+        xaiApiKey: stored.geminiXaiApiKey,
+        xaiModel: stored.geminiXaiModel
     };
 }
