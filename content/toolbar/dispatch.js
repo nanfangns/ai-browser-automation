@@ -15,9 +15,23 @@
 
         dispatch(actionType, data) {
             // Always read fresh from chrome.storage.local to avoid stale dropdown state
-            // caused by failed storage.onChanged syncs between sidebar and floating toolbar
-            chrome.storage.local.get(['geminiModel', 'geminiProvider'], (res) => {
+            // caused by failed storage.onChanged syncs between sidebar and floating toolbar.
+            // Also rebuild the model list so the dropdown always matches the current provider.
+            chrome.storage.local.get([
+                'geminiModel',
+                'geminiProvider',
+                'geminiUseOfficialApi',
+                'geminiOpenaiModel',
+                'geminiAnthropicModel'
+            ], (res) => {
                 const freshModel = res.geminiModel || this.ui.getSelectedModel();
+                const settings = {
+                    provider: res.geminiProvider || (res.geminiUseOfficialApi ? 'official' : 'web'),
+                    useOfficialApi: res.geminiUseOfficialApi,
+                    openaiModel: res.geminiOpenaiModel,
+                    anthropicModel: res.geminiAnthropicModel
+                };
+                this.ui.updateModelList(settings, freshModel);
                 this._dispatchWithModel(actionType, data, freshModel);
             });
         }
