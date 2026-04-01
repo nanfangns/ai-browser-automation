@@ -96,6 +96,7 @@ class ToolbarActions {
     }
 
     async handleQuickAction(actionType, selection, rect, model = "gemini-2.5-flash", mousePoint = null) {
+        console.log('[DEBUG handleQuickAction] model:', model);
         const t = this.t;
         let prompt, title, inputPlaceholder, loadingMsg;
 

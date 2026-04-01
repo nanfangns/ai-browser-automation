@@ -49,6 +49,7 @@ export async function getConnectionSettings() {
         activeApiKey = activeApiKey.trim();
     }
 
+    console.log('[DEBUG getConnectionSettings] stored:', JSON.stringify({provider: provider, openaiModel: stored.geminiOpenaiModel, anthropicModel: stored.geminiAnthropicModel}));
     return {
         provider: provider,
         // Official

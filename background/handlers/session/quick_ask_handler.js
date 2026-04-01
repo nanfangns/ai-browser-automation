@@ -9,6 +9,7 @@ export class QuickAskHandler {
     }
 
     async handleQuickAsk(request, sender) {
+        console.log('[DEBUG BG handleQuickAsk] request.model:', request.model);
         const tabId = sender.tab ? sender.tab.id : null;
         
         if (!request.sessionId) {

@@ -24,13 +24,16 @@
                 'geminiOpenaiModel',
                 'geminiAnthropicModel'
             ], (res) => {
+                console.log('[DEBUG dispatch] storage:', JSON.stringify(res));
                 const freshModel = res.geminiModel || this.ui.getSelectedModel();
+                console.log('[DEBUG dispatch] freshModel:', freshModel);
                 const settings = {
                     provider: res.geminiProvider || (res.geminiUseOfficialApi ? 'official' : 'web'),
                     useOfficialApi: res.geminiUseOfficialApi,
                     openaiModel: res.geminiOpenaiModel,
                     anthropicModel: res.geminiAnthropicModel
                 };
+                console.log('[DEBUG dispatch] settings:', JSON.stringify(settings));
                 this.ui.updateModelList(settings, freshModel);
                 this._dispatchWithModel(actionType, data, freshModel);
             });
