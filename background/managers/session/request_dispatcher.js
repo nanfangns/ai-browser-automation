@@ -53,9 +53,8 @@ export class RequestDispatcher {
     }
 
     async _handleOpenAIRequest(request, settings, files, onUpdate, signal) {
-        // Determine model: prioritize the one selected in UI (request.model)
-        // If request.model is 'openai_custom' (legacy fallback), grab the first one from settings
-        let targetModel = request.model;
+        // Always use model from storage (authoritative source) instead of request payload
+        let targetModel = settings.model;
         if (!targetModel || targetModel === 'openai_custom') {
             const configuredModels = settings.openaiModel ? settings.openaiModel.split(',') : [];
             targetModel = configuredModels.length > 0 ? configuredModels[0].trim() : "";
@@ -90,7 +89,8 @@ export class RequestDispatcher {
     }
 
     async _handleAnthropicRequest(request, settings, files, onUpdate, signal) {
-        let targetModel = request.model;
+        // Always use model from storage (authoritative source) instead of request payload
+        let targetModel = settings.model;
         if (!targetModel || targetModel === 'anthropic_custom') {
             const configuredModels = settings.anthropicModel ? settings.anthropicModel.split(',') : [];
             targetModel = configuredModels.length > 0 ? configuredModels[0].trim() : "claude-3-5-sonnet-20241022";

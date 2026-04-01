@@ -2,6 +2,7 @@
 // background/managers/session/settings_store.js
 
 export async function getConnectionSettings() {
+    // Also read geminiModel to ensure model always comes from authoritative storage
     const stored = await chrome.storage.local.get([
         'geminiProvider',
         'geminiUseOfficialApi',
@@ -13,7 +14,8 @@ export async function getConnectionSettings() {
         'geminiOpenaiModel',
         'geminiAnthropicBaseUrl',
         'geminiAnthropicApiKey',
-        'geminiAnthropicModel'
+        'geminiAnthropicModel',
+        'geminiModel'
     ]);
 
     // Legacy Migration Logic
@@ -49,9 +51,11 @@ export async function getConnectionSettings() {
         activeApiKey = activeApiKey.trim();
     }
 
-    console.log('[DEBUG getConnectionSettings] stored:', JSON.stringify({provider: provider, openaiModel: stored.geminiOpenaiModel, anthropicModel: stored.geminiAnthropicModel}));
+    console.log('[DEBUG getConnectionSettings] stored:', JSON.stringify({provider: provider, model: stored.geminiModel, openaiModel: stored.geminiOpenaiModel, anthropicModel: stored.geminiAnthropicModel}));
     return {
         provider: provider,
+        // Model: always authoritative from storage
+        model: stored.geminiModel || "gemini-2.5-flash",
         // Official
         apiKey: activeApiKey,
         thinkingLevel: stored.geminiThinkingLevel || "low",
