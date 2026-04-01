@@ -111,6 +111,7 @@ export function bindAppEvents(app, ui, setResizeRef) {
 
     if (modelSelect) {
         modelSelect.addEventListener('change', (e) => {
+             console.log('[DEBUG modelSelect change] e.target.value:', e.target.value);
              app.handleModelChange(e.target.value);
              resizeModelSelect();
         });

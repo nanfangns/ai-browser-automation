@@ -140,6 +140,7 @@ export class CustomDropdown {
     }
 
     selectByValue(value) {
+        console.log('[DEBUG dropdown selectByValue] value:', value, 'nativeSelect:', this.nativeSelect?.value);
         // Update active state
         this.dropdown.querySelectorAll('.cd-option').forEach(opt => {
             const isActive = opt.dataset.value === value;
