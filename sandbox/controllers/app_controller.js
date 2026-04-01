@@ -189,7 +189,7 @@ export class AppController {
         if (action === 'RESTORE_CONNECTION_SETTINGS') {
             this.ui.settings.updateConnectionSettings(payload);
             // Fix: Pass the full settings payload object, not just the boolean flag
-            this.ui.updateModelList(payload);
+            this.ui.updateModelList(payload, payload.savedModel);
             return;
         }
 

@@ -108,7 +108,7 @@ export class UIController {
         });
     }
 
-    updateModelList(settings) {
+    updateModelList(settings, savedModel) {
         const dropdown = this.modelDropdown;
         if (!dropdown) return;
 
@@ -140,5 +140,14 @@ export class UIController {
         }
 
         dropdown.setOptions(options);
+
+        // Validate saved model against new options; only fall back if truly invalid
+        const currentVal = dropdown.getValue();
+        const validValues = options.map(o => o.val);
+        if (savedModel && validValues.includes(savedModel)) {
+            dropdown.setValue(savedModel);
+        } else if (!validValues.includes(currentVal)) {
+            dropdown.setValue(options[0]?.val);
+        }
     }
 }

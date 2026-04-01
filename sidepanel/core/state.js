@@ -65,7 +65,7 @@ export class StateManager {
         // --- Push Data ---
         
         // 1. Preferences
-        
+
         // Settings first to establish model list environment
         this.frame.postMessage({
             action: 'RESTORE_CONNECTION_SETTINGS',
@@ -79,7 +79,8 @@ export class StateManager {
                 openaiModel: this.data.geminiOpenaiModel || "",
                 anthropicBaseUrl: this.data.geminiAnthropicBaseUrl || "",
                 anthropicApiKey: this.data.geminiAnthropicApiKey || "",
-                anthropicModel: this.data.geminiAnthropicModel || ""
+                anthropicModel: this.data.geminiAnthropicModel || "",
+                savedModel: this.data.geminiModel || null
             }
         });
 

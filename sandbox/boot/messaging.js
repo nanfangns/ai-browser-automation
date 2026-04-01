@@ -71,6 +71,10 @@ export class AppMessageBridge {
                         this.ui.modelSelect.selectedIndex = 0;
                     }
                 }
+                // Sync CustomDropdown without firing its change callback (which saves to storage)
+                if (this.ui.modelDropdown && this.ui.modelDropdown.setValue) {
+                    this.ui.modelDropdown.setValue(this.ui.modelSelect.value);
+                }
                 if (this.resizeFn) this.resizeFn();
             }
             return;

@@ -100,7 +100,8 @@ export class MessageBridge {
                 'geminiOpenaiModel',
                 'geminiAnthropicBaseUrl',
                 'geminiAnthropicApiKey',
-                'geminiAnthropicModel'
+                'geminiAnthropicModel',
+                'geminiModel'
             ], (res) => {
                 this.frame.postMessage({
                     action: 'RESTORE_CONNECTION_SETTINGS',
@@ -114,7 +115,8 @@ export class MessageBridge {
                         openaiModel: res.geminiOpenaiModel || "",
                         anthropicBaseUrl: res.geminiAnthropicBaseUrl || "",
                         anthropicApiKey: res.geminiAnthropicApiKey || "",
-                        anthropicModel: res.geminiAnthropicModel || ""
+                        anthropicModel: res.geminiAnthropicModel || "",
+                        savedModel: res.geminiModel || null
                     }
                 });
             });
