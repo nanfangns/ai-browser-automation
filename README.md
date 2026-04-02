@@ -87,6 +87,17 @@ Gemini Nexus 将 Google Gemini 模型直接集成到浏览器中，让 AI 能够
 | 截图 | `take_screenshot` / `take_snapshot` | 获取页面状态 |
 | 标签页 | `new_page` / `close_page` / `select_page` | 管理多标签页 |
 
+## Grok Web 模式说明
+
+当连接方式切换为 `grok_web` 时，扩展不会直连 Grok 私有接口，而是**驱动你当前已登录的 grok.com 页面**完成发送与读取回复。
+
+使用要求：
+- 发送前必须先在 Chrome 中打开并登录 `https://grok.com/`
+- 请求进行期间需要保持该页面处于打开状态
+- 如果打开了多个 grok.com 标签页，扩展会优先使用当前活跃的那个
+
+这意味着 `grok_web` 更像“自动操作现成网页”，而不是后台无界面调用 API。
+
 ## 安装
 
 1.  **克隆项目**

@@ -76,7 +76,8 @@ export class GrokWebProvider {
                 const activeTab = tabs.find((tab) => tab.active) || tabs[0];
                 const tabId = activeTab.id;
 
-                chrome.scripting.executeScript(
+                const injectMainWorld = () => {
+                    chrome.scripting.executeScript(
                     {
                         target: { tabId },
                         world: 'MAIN',
@@ -329,6 +330,37 @@ export class GrokWebProvider {
                         } else {
                             console.log('[Grok Web DOM] Script injected, waiting for DOM stream...');
                         }
+                    }
+                );
+                };
+
+                chrome.scripting.executeScript(
+                    {
+                        target: { tabId },
+                        func: function() {
+                            if (window.__grokRelayInstalled) return;
+                            window.__grokRelayInstalled = true;
+                            window.addEventListener('message', function(event) {
+                                if (event.source !== window) return;
+                                var data = event.data;
+                                if (!data || data.source !== 'GEMINI_NEXUS_GROK_PAGE' || !data.payload) return;
+                                try {
+                                    chrome.runtime.sendMessage(data.payload, function() {
+                                        if (chrome.runtime.lastError) {
+                                            console.warn('[Grok Relay] Forward failed:', chrome.runtime.lastError.message, data.payload && data.payload.type);
+                                        }
+                                    });
+                                } catch (e) {
+                                    console.warn('[Grok Relay] sendMessage threw:', e && e.message ? e.message : e);
+                                }
+                            });
+                        }
+                    },
+                    () => {
+                        if (chrome.runtime.lastError) {
+                            console.warn('[Grok Web DOM] Relay injection warning:', chrome.runtime.lastError.message);
+                        }
+                        injectMainWorld();
                     }
                 );
             });
