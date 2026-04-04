@@ -55,7 +55,7 @@ export class ConnectionSection {
                     { val: 'openai', txt: 'OpenAI Compatible API' },
                     { val: 'anthropic', txt: 'Anthropic Messages API (Native)' },
                     { val: 'xai', txt: 'xAI Grok API' },
-                    { val: 'grok_web', txt: 'Grok Web (Free, Login Required)' }
+                    { val: 'doubao_web', txt: 'Doubao Web (Free)' }
                 ],
                 onSelect: (value) => this.updateVisibility(value)
             });
@@ -135,8 +135,8 @@ export class ConnectionSection {
         const { apiKeyContainer, officialFields, openaiFields, anthropicFields, xaiFields } = this.elements;
         if (!apiKeyContainer) return;
 
-        // grok_web uses cookie auth from browser, no API key needed
-        if (provider === 'web' || provider === 'grok_web') {
+        // web and doubao_web use browser auth, no API key needed
+        if (provider === 'web' || provider === 'doubao_web') {
             apiKeyContainer.style.display = 'none';
         } else {
             apiKeyContainer.style.display = 'flex';

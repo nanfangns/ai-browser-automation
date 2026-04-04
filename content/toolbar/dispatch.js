@@ -23,7 +23,8 @@
                 'geminiProvider',
                 'geminiUseOfficialApi',
                 'geminiOpenaiModel',
-                'geminiAnthropicModel'
+                'geminiAnthropicModel',
+                'geminiXaiModel'
             ], (res) => {
                 console.log('[DEBUG dispatch STORAGE]', JSON.stringify(res));
                 const freshModel = res.geminiModel || this.ui.getSelectedModel();
@@ -32,7 +33,8 @@
                     provider: res.geminiProvider || (res.geminiUseOfficialApi ? 'official' : 'web'),
                     useOfficialApi: res.geminiUseOfficialApi,
                     openaiModel: res.geminiOpenaiModel,
-                    anthropicModel: res.geminiAnthropicModel
+                    anthropicModel: res.geminiAnthropicModel,
+                    xaiModel: res.geminiXaiModel
                 };
                 console.log('[DEBUG dispatch settings:', JSON.stringify(settings));
                 this.ui.updateModelList(settings, freshModel);

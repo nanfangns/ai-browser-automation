@@ -84,14 +84,16 @@
                 'geminiProvider',
                 'geminiUseOfficialApi',
                 'geminiOpenaiModel',
-                'geminiAnthropicModel'
+                'geminiAnthropicModel',
+                'geminiXaiModel'
             ]);
 
             const settings = {
                 provider: result.geminiProvider,
                 useOfficialApi: result.geminiUseOfficialApi,
                 openaiModel: result.geminiOpenaiModel,
-                anthropicModel: result.geminiAnthropicModel
+                anthropicModel: result.geminiAnthropicModel,
+                xaiModel: result.geminiXaiModel
             };
             
             // Update UI options and selection

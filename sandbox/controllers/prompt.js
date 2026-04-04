@@ -51,30 +51,38 @@ export class PromptController {
 
         // Prepare Context & Model
         const selectedModel = this.app.getSelectedModel();
-        
-        if (session.context) {
-             sendToBackground({
-                action: "SET_CONTEXT",
-                context: session.context,
-                model: selectedModel
-            });
-        }
-
-        this.ui.resetInput();
-        this.imageManager.clearFile();
-        
-        this.app.isGenerating = true;
-        this.ui.setLoading(true);
-
-        sendToBackground({ 
-            action: "SEND_PROMPT", 
+        const requestPayload = {
+            action: "SEND_PROMPT",
             text: text,
             files: files, // Send full file objects array
             model: selectedModel,
             includePageContext: this.app.pageContextActive,
             enableBrowserControl: this.app.browserControlActive, // Pass browser control state
             sessionId: currentId // Important: Pass session ID so background can save history independently
-        });
+        };
+
+        if (session.context) {
+             sendToBackground({
+                action: "SET_CONTEXT",
+                context: session.context,
+                model: selectedModel
+            });
+
+            if (session.context.doubaoConversationId) {
+                requestPayload.doubaoConversationId = session.context.doubaoConversationId;
+            }
+            if (session.context.doubaoReplyMessageId) {
+                requestPayload.doubaoReplyMessageId = session.context.doubaoReplyMessageId;
+            }
+        }
+
+        this.ui.resetInput();
+        this.imageManager.clearFile();
+
+        this.app.isGenerating = true;
+        this.ui.setLoading(true);
+
+        sendToBackground(requestPayload);
     }
 
     cancel() {

@@ -5,7 +5,7 @@ import { sendWebMessage } from '../../../services/providers/web.js';
 import { sendOpenAIMessage } from '../../../services/providers/openai_compatible.js';
 import { sendAnthropicMessage } from '../../../services/providers/anthropic.js';
 import { sendXaiMessage } from '../../../services/providers/xai.js';
-import { grokWebProvider } from '../../../services/providers/grok_web.js';
+import { doubaoWebProvider } from '../../../services/providers/doubao_web.js';
 import { getHistory } from './history_store.js';
 
 export class RequestDispatcher {
@@ -22,8 +22,8 @@ export class RequestDispatcher {
             return await this._handleAnthropicRequest(request, settings, files, onUpdate, signal);
         } else if (settings.provider === 'xai') {
             return await this._handleXaiRequest(request, settings, files, onUpdate, signal);
-        } else if (settings.provider === 'grok_web') {
-            return await this._handleGrokWebRequest(request, files, onUpdate, signal);
+        } else if (settings.provider === 'doubao_web') {
+            return await this._handleDoubaoWebRequest(request, files, onUpdate, signal);
         } else {
             return await this._handleWebRequest(request, files, onUpdate, signal);
         }
@@ -165,18 +165,11 @@ export class RequestDispatcher {
         };
     }
 
-    async _handleGrokWebRequest(request, files, onUpdate, signal) {
-        // Grok Web uses cookie-based auth from active grok.com session
-        // System instruction is prepended to the message
+    async _handleDoubaoWebRequest(request, files, onUpdate, signal) {
         let fullText = request.text;
         if (request.systemInstruction) {
             fullText = request.systemInstruction + "\n\n" + fullText;
         }
-
-        // Get conversation context from request (or use sessionId as conversationId)
-        const conversationId = request.grokConversationId || "";
-        const parentResponseId = request.grokParentResponseId || null;
-        const mode = request.grokMode || 'auto';
 
         let attemptCount = 0;
         const maxAttempts = 2;
@@ -185,11 +178,11 @@ export class RequestDispatcher {
             attemptCount++;
 
             try {
-                const response = await grokWebProvider.sendMessage(
+                const response = await doubaoWebProvider.sendMessage(
                     fullText,
-                    conversationId,
-                    parentResponseId,
-                    mode,
+                    request.doubaoConversationId || '',
+                    request.doubaoReplyMessageId || '',
+                    files,
                     signal,
                     onUpdate
                 );
@@ -200,25 +193,18 @@ export class RequestDispatcher {
                     thoughts: null,
                     images: [],
                     status: "success",
-                    context: {
-                        grokConversationId: response.conversationId,
-                        grokResponseId: response.responseId
-                    }
+                    context: response.context
                 };
-
             } catch (err) {
-                const isAuthError = err.message && (
-                    err.message.includes("authentication") ||
-                    err.message.includes("logged in") ||
+                const isLoginError = err.message && (
+                    err.message.includes("Doubao authentication failed") ||
+                    err.message.includes("log in") ||
                     err.message.includes("401") ||
-                    err.message.includes("403") ||
-                    err.message.includes("Not logged in")
+                    err.message.includes("403")
                 );
 
-                if (isAuthError && attemptCount < maxAttempts) {
-                    console.warn(`[Grok Web] Auth error: ${err.message}, retrying...`);
-                    // Force re-fetch cookies
-                    grokWebProvider.resetAuth();
+                if (isLoginError && attemptCount < maxAttempts) {
+                    await doubaoWebProvider.resetAuth();
                     await new Promise(r => setTimeout(r, 1000));
                     continue;
                 }

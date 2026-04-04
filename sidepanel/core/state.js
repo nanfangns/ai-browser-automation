@@ -31,7 +31,9 @@ export class StateManager {
             'geminiOpenaiModel',
             'geminiAnthropicBaseUrl',
             'geminiAnthropicApiKey',
-            'geminiAnthropicModel'
+            'geminiAnthropicModel',
+            'geminiXaiApiKey',
+            'geminiXaiModel'
         ], (result) => {
             this.data = result;
             this.trySendInitData();
@@ -80,6 +82,8 @@ export class StateManager {
                 anthropicBaseUrl: this.data.geminiAnthropicBaseUrl || "",
                 anthropicApiKey: this.data.geminiAnthropicApiKey || "",
                 anthropicModel: this.data.geminiAnthropicModel || "",
+                xaiApiKey: this.data.geminiXaiApiKey || "",
+                xaiModel: this.data.geminiXaiModel || "",
                 savedModel: this.data.geminiModel || null
             }
         });

@@ -243,6 +243,19 @@
                 } else {
                     opts = models.map(m => ({ val: m, txt: m }));
                 }
+            } else if (provider === 'xai') {
+                const rawModels = settings.xaiModel || "";
+                const models = rawModels.split(',').map(m => m.trim()).filter(m => m);
+                if (models.length === 0) {
+                    opts = [
+                        { val: 'grok-3', txt: 'Grok 3' },
+                        { val: 'grok-3-mini', txt: 'Grok 3 Mini' }
+                    ];
+                } else {
+                    opts = models.map(m => ({ val: m, txt: m }));
+                }
+            } else if (provider === 'doubao_web') {
+                opts = [{ val: 'doubao-default', txt: 'Doubao' }];
             } else {
                 opts = [
                     { val: 'gemini-3-flash', txt: 'Fast' },
