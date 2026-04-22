@@ -1,6 +1,8 @@
 
 // background/handlers/session/utils.js
 
+import { sanitizePageContextText } from '../../lib/context_sanitizer.js';
+
 /**
  * Parses ALL tool commands from LLM response text.
  * Supports multiple formats: code blocks, raw JSON, and inline JSON objects.
@@ -119,6 +121,22 @@ function tryParseTool(str) {
 }
 
 export async function getActiveTabContent(specificTabId = null) {
+    const pageContext = await getActiveTabContextData(specificTabId);
+    return pageContext ? pageContext.content : null;
+}
+
+function computeContextFingerprint(url, text) {
+    const sample = String(text || '').slice(0, 4000);
+    let hash = 0;
+
+    for (let i = 0; i < sample.length; i++) {
+        hash = ((hash * 31) + sample.charCodeAt(i)) >>> 0;
+    }
+
+    return `${url || ''}::${sample.length}::${hash}`;
+}
+
+export async function getActiveTabContextData(specificTabId = null) {
     try {
         let tab;
         if (specificTabId) {
@@ -151,7 +169,13 @@ export async function getActiveTabContent(specificTabId = null) {
         // Strategy 1: Try sending message to existing content script
         try {
             const response = await chrome.tabs.sendMessage(tab.id, { action: "GET_PAGE_CONTENT" });
-            return response ? response.content : null;
+            const content = response ? sanitizePageContextText(response.content) : null;
+            return {
+                url: tab.url || '',
+                title: tab.title || '',
+                content: content,
+                fingerprint: computeContextFingerprint(tab.url || '', content || '')
+            };
         } catch (e) {
             // Strategy 2: Fallback to Scripting Injection
             console.log("Content script unavailable, attempting fallback injection...");
@@ -160,7 +184,13 @@ export async function getActiveTabContent(specificTabId = null) {
                     target: { tabId: tab.id },
                     func: () => document.body ? document.body.innerText : ""
                 });
-                return results?.[0]?.result || null;
+                const content = sanitizePageContextText(results?.[0]?.result || null);
+                return {
+                    url: tab.url || '',
+                    title: tab.title || '',
+                    content: content,
+                    fingerprint: computeContextFingerprint(tab.url || '', content || '')
+                };
             } catch (injErr) {
                 console.error("Fallback injection failed:", injErr);
                 return null;

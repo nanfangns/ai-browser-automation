@@ -1,6 +1,6 @@
 
 // background/handlers/session/prompt_handler.js
-import { appendAiMessage, appendUserMessage } from '../../managers/history_manager.js';
+import { appendAiMessage, appendUserMessage, updateSessionMetadata } from '../../managers/history_manager.js';
 import { PromptBuilder } from './prompt/builder.js';
 import { ToolExecutor } from './prompt/tool_executor.js';
 
@@ -74,8 +74,24 @@ export class PromptHandler {
                 const buildResult = await this.builder.build(request);
                 const systemInstruction = buildResult.systemInstruction;
                 let currentPromptText = buildResult.userPrompt;
+                const pageContextMeta = buildResult.pageContextMeta;
+                const pageContextChanged = buildResult.pageContextChanged;
                 
                 let currentFiles = request.files;
+
+                if (request.includePageContext && request.sessionId && pageContextMeta) {
+                    if (pageContextChanged) {
+                        await this.sessionManager.resetContext({ rotateAccount: false });
+                        delete request.doubaoConversationId;
+                        delete request.doubaoReplyMessageId;
+                    }
+
+                    const sessionPatch = { pageContextMeta };
+                    if (pageContextChanged) {
+                        sessionPatch.context = null;
+                    }
+                    await updateSessionMetadata(request.sessionId, sessionPatch);
+                }
                 
                 let loopCount = 0;
                 // 0 means unlimited (Infinity). Default to 0 if undefined.

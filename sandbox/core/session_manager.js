@@ -15,7 +15,8 @@ export class SessionManager {
             title: "New Chat",
             timestamp: Date.now(),
             messages: [],
-            context: null // Gemini context IDs
+            context: null, // Gemini context IDs
+            pageContextMeta: null
         };
         this.sessions.unshift(newSession); // Add to top
         this.currentSessionId = newId;

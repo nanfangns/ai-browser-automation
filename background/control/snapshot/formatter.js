@@ -1,6 +1,8 @@
 
 // background/control/snapshot/formatter.js
 
+import { shouldDropAXNode } from '../../lib/context_sanitizer.js';
+
 export class SnapshotFormatter {
     constructor(options = {}) {
         this.verbose = options.verbose || false;
@@ -51,6 +53,7 @@ export class SnapshotFormatter {
     // Filter out noise nodes to keep the tree token-efficient
     _isInteresting(node) {
         if (node.ignored) return false;
+        if (shouldDropAXNode(node, this._getVal.bind(this))) return false;
         const role = this._getVal(node.role);
         const name = this._getVal(node.name);
         const value = this._getVal(node.value);

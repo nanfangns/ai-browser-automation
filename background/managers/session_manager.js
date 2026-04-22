@@ -91,7 +91,7 @@ export class GeminiSessionManager {
         await this.auth.updateContext(context, model);
     }
 
-    async resetContext() {
-        await this.auth.resetContext();
+    async resetContext(options) {
+        await this.auth.resetContext(options);
     }
 }

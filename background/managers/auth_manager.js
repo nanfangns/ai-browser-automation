@@ -112,14 +112,15 @@ export class AuthManager {
         });
     }
 
-    async resetContext() {
+    async resetContext(options = {}) {
+        const rotateAccount = options.rotateAccount !== false;
         this.currentContext = null;
         this.lastModel = null;
         // Do not remove geminiModel to preserve user preference in UI
         await chrome.storage.local.remove(['geminiContext']);
         
         // Rotate to spread load on reset
-        if (this.accountIndices.length > 1) {
+        if (rotateAccount && this.accountIndices.length > 1) {
             await this.rotateAccount();
         }
     }

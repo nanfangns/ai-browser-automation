@@ -148,3 +148,31 @@ export async function appendUserMessage(sessionId, text, images = null) {
         return false;
     }
 }
+
+export async function updateSessionMetadata(sessionId, patch) {
+    try {
+        const { geminiSessions = [] } = await chrome.storage.local.get(['geminiSessions']);
+        const sessionIndex = geminiSessions.findIndex(s => s.id === sessionId);
+
+        if (sessionIndex === -1) {
+            return false;
+        }
+
+        geminiSessions[sessionIndex] = {
+            ...geminiSessions[sessionIndex],
+            ...patch
+        };
+
+        await chrome.storage.local.set({ geminiSessions });
+
+        chrome.runtime.sendMessage({
+            action: "SESSIONS_UPDATED",
+            sessions: geminiSessions
+        }).catch(() => {});
+
+        return true;
+    } catch (e) {
+        console.error("Error updating session metadata:", e);
+        return false;
+    }
+}

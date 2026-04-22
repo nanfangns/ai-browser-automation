@@ -1,6 +1,6 @@
 
 // background/handlers/session/prompt/builder.js
-import { getActiveTabContent } from '../utils.js';
+import { getActiveTabContextData } from '../utils.js';
 import { BROWSER_CONTROL_PREAMBLE } from './preamble.js';
 
 export class PromptBuilder {
@@ -10,6 +10,8 @@ export class PromptBuilder {
 
     async build(request) {
         let systemPreamble = "";
+        let pageContextMeta = null;
+        let pageContextChanged = false;
 
         // Fetch custom prompt from storage
         const { geminiCustomPrompt = '' } = await chrome.storage.local.get(['geminiCustomPrompt']);
@@ -20,9 +22,32 @@ export class PromptBuilder {
         if (request.includePageContext) {
             // If we have a locked tab in ControlManager, use it for context
             const targetTabId = this.controlManager ? this.controlManager.getTargetTabId() : null;
-            const pageContent = await getActiveTabContent(targetTabId);
+            const pageContext = await getActiveTabContextData(targetTabId);
+            const pageContent = pageContext ? pageContext.content : null;
             
             if (pageContent) {
+                pageContextMeta = {
+                    url: pageContext.url || '',
+                    title: pageContext.title || '',
+                    fingerprint: pageContext.fingerprint || ''
+                };
+
+                const previousMeta = await this._getSessionPageContextMeta(request.sessionId);
+                pageContextChanged = Boolean(
+                    previousMeta &&
+                    previousMeta.fingerprint &&
+                    pageContextMeta.fingerprint &&
+                    previousMeta.fingerprint !== pageContextMeta.fingerprint
+                );
+
+                if (pageContextMeta.url) {
+                    systemPreamble += `[Current Page URL]: ${pageContextMeta.url}\n\n`;
+                }
+
+                if (pageContextChanged) {
+                    systemPreamble += `[Page Context Update]: The active page has changed since earlier turns. Treat the current page context below as authoritative. Ignore prior page-specific assumptions unless the user explicitly asks to compare pages.\n\n`;
+                }
+
                 systemPreamble += `Webpage Context:\n\`\`\`text\n${pageContent}\n\`\`\`\n\n`;
             }
         }
@@ -72,8 +97,22 @@ export class PromptBuilder {
         // Return separated components
         return {
             systemInstruction: systemPreamble,
-            userPrompt: request.text
+            userPrompt: request.text,
+            pageContextMeta,
+            pageContextChanged
         };
+    }
+
+    async _getSessionPageContextMeta(sessionId) {
+        if (!sessionId) return null;
+
+        try {
+            const { geminiSessions = [] } = await chrome.storage.local.get(['geminiSessions']);
+            const session = geminiSessions.find((item) => item.id === sessionId);
+            return session?.pageContextMeta || null;
+        } catch (e) {
+            return null;
+        }
     }
 
     /**
