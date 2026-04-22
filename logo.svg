@@ -1,34 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
   <defs>
-    <linearGradient id="bubbleStroke" x1="24" y1="88" x2="94" y2="30" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#7C3AED"/>
-      <stop offset="0.36" stop-color="#5B53F7"/>
-      <stop offset="1" stop-color="#1E8BFF"/>
+    <linearGradient id="bubbleStroke" x1="18" y1="96" x2="98" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7A35FF"/>
+      <stop offset="0.35" stop-color="#5F4DFF"/>
+      <stop offset="1" stop-color="#198BFF"/>
     </linearGradient>
-    <linearGradient id="cursorFill" x1="64" y1="46" x2="104" y2="100" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#7FD3FF"/>
-      <stop offset="0.44" stop-color="#45B7FF"/>
-      <stop offset="1" stop-color="#1E7CFF"/>
+    <linearGradient id="cursorFill" x1="74" y1="40" x2="114" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83D7FF"/>
+      <stop offset="0.5" stop-color="#4BB5FF"/>
+      <stop offset="1" stop-color="#1E85FF"/>
     </linearGradient>
-    <linearGradient id="sparkleFill" x1="85" y1="24" x2="106" y2="45" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#7FD3FF"/>
-      <stop offset="1" stop-color="#2E89FF"/>
+    <linearGradient id="sparkFill" x1="92" y1="20" x2="111" y2="39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7DD7FF"/>
+      <stop offset="1" stop-color="#2A8CFF"/>
     </linearGradient>
-    <filter id="tileShadow" x="-16%" y="-16%" width="132%" height="132%">
-      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.14"/>
-    </filter>
-    <filter id="iconGlow" x="-18%" y="-18%" width="136%" height="136%">
-      <feDropShadow dx="0" dy="0" stdDeviation="1.8" flood-color="#49B8FF" flood-opacity="0.26"/>
-    </filter>
   </defs>
 
-  <g filter="url(#tileShadow)">
-    <rect x="7" y="7" width="114" height="114" rx="24" fill="#FFFFFF"/>
-  </g>
+  <rect width="128" height="128" fill="#FFFFFF"/>
 
-  <g filter="url(#iconGlow)" transform="translate(-6.4 -6.4) scale(1.1)">
+  <g transform="translate(-5.2 -5.2) scale(1.08)">
     <path
-      d="M42 32h23c18 0 28 9 28 26v2c0 17-10 26-28 26H48L30 100l4-15c-8-4-13-12-13-24v-3c0-17 10-26 21-26z"
+      d="M34 28h44c14 0 24 10 24 24v3c0 15-10 25-24 25H46L18 99l7-22c-8-4-13-11-13-22v-3c0-14 10-24 22-24z"
       fill="none"
       stroke="url(#bubbleStroke)"
       stroke-width="8"
@@ -36,27 +28,28 @@
       stroke-linejoin="round"
     />
 
-    <circle cx="44" cy="60" r="4.4" fill="#2D77FF"/>
-    <circle cx="57" cy="60" r="4.4" fill="#2D77FF"/>
-    <circle cx="70" cy="60" r="4.4" fill="#2D77FF"/>
+    <circle cx="37" cy="58" r="4.6" fill="#2378FF"/>
+    <circle cx="51" cy="58" r="4.6" fill="#2378FF"/>
+    <circle cx="65" cy="58" r="4.6" fill="#2378FF"/>
 
     <path
-      d="M63 46l38 22-20 5 13 18c1.3 1.8 1.1 4.2-.5 5.7l-2.1 2c-1.6 1.5-4 1.4-5.5-.2L73 82l-7 17c-.8 1.9-3.4 1.8-4-.1l-6.7-49.2c-.3-2.1 1.8-3.7 3.7-3.1z"
+      d="M71 41l46 33-22 6 16 23c1.4 2 1.2 4.8-.6 6.5l-2.5 2.4c-1.8 1.7-4.7 1.6-6.3-.2L84 89l-9 22c-.8 1.9-3.6 1.8-3.9-.2L64 45.1c-.2-2 1.9-3.7 3.8-4.1z"
       fill="url(#cursorFill)"
     />
 
-    <g stroke="#FFFFFF" stroke-opacity="0.88" stroke-linecap="round">
-      <path d="M66 50l6 2" stroke-width="1.5"/>
-      <path d="M65 54l8 2" stroke-width="1.5"/>
-      <path d="M64 58l9 2" stroke-width="1.4"/>
-      <path d="M64 62l9 3" stroke-width="1.3"/>
-      <path d="M65 66l8 3" stroke-width="1.2"/>
-      <path d="M66 70l6 3" stroke-width="1.1"/>
+    <g stroke="#DFF4FF" stroke-linecap="round" opacity="0.95">
+      <path d="M73 46l8 3" stroke-width="1.8"/>
+      <path d="M72 50l9 4" stroke-width="1.8"/>
+      <path d="M71 54l10 5" stroke-width="1.7"/>
+      <path d="M71 58l10 6" stroke-width="1.6"/>
+      <path d="M72 62l9 6" stroke-width="1.5"/>
+      <path d="M73 66l8 6" stroke-width="1.4"/>
+      <path d="M74 70l7 6" stroke-width="1.3"/>
     </g>
 
     <path
-      d="M91 24l2.8 8.2L102 35l-8.2 2.8L91 46l-2.8-8.2L80 35l8.2-2.8z"
-      fill="url(#sparkleFill)"
+      d="M100 20l2.8 8.9L112 31l-9.2 2.1L100 42l-2.8-8.9L88 31l9.2-2.1z"
+      fill="url(#sparkFill)"
     />
   </g>
 </svg>
